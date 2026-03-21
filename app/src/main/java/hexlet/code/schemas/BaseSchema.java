@@ -1,20 +1,8 @@
 package hexlet.code.schemas;
 
-public abstract class BaseSchema {
+public abstract class BaseSchema<T> {
 
-    public BaseSchema required() {
-        return this;
-    }
+    protected boolean required;
 
-    public BaseSchema minLength(int value) {
-        return this;
-    }
-
-    public BaseSchema contains(String str) {
-        return this;
-    }
-
-    public boolean isValid(Object obj) {
-        return false;
-    }
+    public abstract boolean isValid(T t);
 }
