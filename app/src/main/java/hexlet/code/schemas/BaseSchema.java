@@ -1,16 +1,16 @@
 package hexlet.code.schemas;
 
-public abstract class Schema {
+public abstract class BaseSchema {
 
-    public Schema required() {
+    public BaseSchema required() {
         return this;
     }
 
-    public Schema minLength(int value) {
+    public BaseSchema minLength(int value) {
         return this;
     }
 
-    public Schema contains(String str) {
+    public BaseSchema contains(String str) {
         return this;
     }
 

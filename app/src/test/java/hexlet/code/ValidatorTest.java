@@ -3,11 +3,11 @@ package hexlet.code;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
-import hexlet.code.schemas.Schema;
+import hexlet.code.schemas.BaseSchema;
 
 public class ValidatorTest {
 
-    private static Schema schema;
+    private static BaseSchema schema;
 
     @BeforeEach
     public void makeValidatorString() {
