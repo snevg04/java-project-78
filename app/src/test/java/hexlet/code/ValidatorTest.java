@@ -1,10 +1,14 @@
 package hexlet.code;
 
+import hexlet.code.schemas.MapSchema;
 import hexlet.code.schemas.NumberSchema;
 import hexlet.code.schemas.StringSchema;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ValidatorTest {
 
@@ -16,7 +20,7 @@ public class ValidatorTest {
     }
 
     @Test
-    public void noParamNullTest() {
+    public void stringNoParamNullTest() {
 
         StringSchema schema = v.string();
         boolean actual = schema.isValid(null);
@@ -25,7 +29,7 @@ public class ValidatorTest {
     }
 
     @Test
-    public void noParamEmptyTest() {
+    public void stringNoParamEmptyTest() {
 
         StringSchema schema = v.string();
         boolean actual = schema.isValid("");
@@ -34,7 +38,7 @@ public class ValidatorTest {
     }
 
     @Test
-    public void requiredNullTest() {
+    public void stringRequiredNullTest() {
 
         StringSchema schema = v.string();
         boolean actual = schema.required().isValid(null);
@@ -43,7 +47,7 @@ public class ValidatorTest {
     }
 
     @Test
-    public void requiredEmptyTest() {
+    public void stringRequiredEmptyTest() {
 
         StringSchema schema = v.string();
         boolean actual = schema.required().isValid("");
@@ -52,7 +56,7 @@ public class ValidatorTest {
     }
 
     @Test
-    public void minLengthWrongTest() {
+    public void stringMinLengthWrongTest() {
 
         StringSchema schema = v.string();
         boolean actual = schema.minLength(7).isValid("Hello");
@@ -61,7 +65,7 @@ public class ValidatorTest {
     }
 
     @Test
-    public void minLengthRightTest() {
+    public void stringMinLengthRightTest() {
 
         StringSchema schema = v.string();
         boolean actual = schema.minLength(4).isValid("Hello");
@@ -70,7 +74,7 @@ public class ValidatorTest {
     }
 
     @Test
-    public void containsRightTest() {
+    public void stringContainsRightTest() {
 
         StringSchema schema = v.string();
         boolean actual = schema.contains("Hel").isValid("Hello");
@@ -79,7 +83,7 @@ public class ValidatorTest {
     }
 
     @Test
-    public void containsWrongTest() {
+    public void stringContainsWrongTest() {
 
         StringSchema schema = v.string();
         boolean actual = schema.contains("What").isValid("Hello");
@@ -88,7 +92,7 @@ public class ValidatorTest {
     }
 
     @Test
-    public void containsMinLengthRightTest() {
+    public void stringContainsMinLengthRightTest() {
 
         StringSchema schema = v.string();
         boolean actual = schema.minLength(4).contains("Hel").isValid("Hello");
@@ -97,7 +101,7 @@ public class ValidatorTest {
     }
 
     @Test
-    public void containsMinLengthWrongTest() {
+    public void stringContainsMinLengthWrongTest() {
 
         StringSchema schema = v.string();
         boolean actual = schema.minLength(8).contains("What").isValid("Hello");
@@ -106,7 +110,7 @@ public class ValidatorTest {
     }
 
     @Test
-    public void requiredMinLengthContainsRightTest() {
+    public void stringRequiredMinLengthContainsRightTest() {
 
         StringSchema schema = v.string();
         boolean actual = schema.required().minLength(4).contains("Hel").isValid("Hello");
@@ -115,7 +119,7 @@ public class ValidatorTest {
     }
 
     @Test
-    public void requiredMinLengthContainsWrongTest() {
+    public void stringRequiredMinLengthContainsWrongTest() {
 
         StringSchema schema = v.string();
         boolean actual = schema.required().minLength(8).contains("What").isValid("Hello");
@@ -124,7 +128,7 @@ public class ValidatorTest {
     }
 
     @Test
-    public void requiredMinLengthContainsNullTest() {
+    public void stringRequiredMinLengthContainsNullTest() {
 
         StringSchema schema = v.string();
         boolean actual = schema.required().minLength(8).contains("What").isValid(null);
@@ -191,6 +195,81 @@ public class ValidatorTest {
 
         NumberSchema schema = v.number();
         boolean actual = schema.required().positive().range(5, 10).isValid(-5);
+        boolean expected = false;
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void mapNullTest() {
+
+        MapSchema schema = v.map();
+        boolean actual = schema.isValid(null);
+        boolean expected = true;
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void mapRequiredRightTest() {
+
+        MapSchema schema = v.map();
+        boolean actual = schema.required().isValid(new HashMap<String, String>());
+        boolean expected = true;
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void mapRequiredWrongTest() {
+
+        MapSchema schema = v.map();
+        boolean actual = schema.required().isValid(null);
+        boolean expected = false;
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void mapSizeOfRightTest() {
+
+        MapSchema schema = v.map();
+        boolean actual = schema.sizeOf(2).isValid(Map.of(
+                "key1", "value1",
+                "key2", "value2"
+        ));
+
+        boolean expected = true;
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void mapSizeOfWrongTest() {
+
+        MapSchema schema = v.map();
+        boolean actual = schema.sizeOf(2).isValid(
+                Map.of("key1", "value1")
+        );
+
+        boolean expected = false;
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void mapRequiredSizeOfRightTest() {
+
+        MapSchema schema = v.map();
+        boolean actual = schema.required().sizeOf(2).isValid(Map.of(
+                "key1", "value1",
+                "key2", "value2"
+        ));
+        boolean expected = true;
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void mapRequiredSizeOfWrongTest() {
+
+        MapSchema schema = v.map();
+        boolean actual = schema.required().sizeOf(2).isValid(
+                Map.of("key1", "value1")
+        );
         boolean expected = false;
         Assertions.assertEquals(expected, actual);
     }
