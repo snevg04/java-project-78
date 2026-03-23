@@ -17,4 +17,8 @@ public class Validator {
     public MapSchema map() {
         return new MapSchema();
     }
+
+    public ShapeSchema shape() {
+        return new ShapeSchema();
+    }
 }
