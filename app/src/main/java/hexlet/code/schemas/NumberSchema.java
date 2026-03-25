@@ -26,10 +26,8 @@ public class NumberSchema extends BaseSchema<Integer> {
 
     public boolean isValid(Integer number) {
 
-        if (required) {
-            if (number == null) {
-                return false;
-            }
+        if (number == null) {
+            return !required;
         }
 
         if (positive) {
