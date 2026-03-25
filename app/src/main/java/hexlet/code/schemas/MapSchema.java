@@ -4,31 +4,52 @@ import java.util.Map;
 
 public class MapSchema extends BaseSchema<Map<String, String>> {
 
-    private int sizeOf;
+    private int sizeof;
+    private Map<String, BaseSchema<String>> schemas;
 
     public MapSchema required() {
         required = true;
         return this;
     }
 
-    public MapSchema sizeOf(int number) {
-        this.sizeOf = number;
+    public MapSchema sizeof(int number) {
+        this.sizeof = number;
         return this;
     }
 
-
+    public MapSchema shape(Map<String, BaseSchema<String>> rule) {
+        this.schemas = rule;
+        return this;
+    }
 
     public boolean isValid(Map<String, String> map) {
 
-        if (required) {
-            if (map == null) {
+        if (map == null) {
+            return !required;
+        }
+
+
+        if (sizeof > 0) {
+            if (map.size() < sizeof) {
                 return false;
             }
         }
 
-        if (sizeOf > 0) {
-            if (map.size() < sizeOf) {
-                return false;
+        if (schemas != null) {
+
+            for (var key : schemas.keySet()) {
+
+                var actualSchema = schemas.get(key);
+
+                if (actualSchema == null) {
+                    continue;
+                }
+
+                var currentValue = map.get(key);
+
+                if (!actualSchema.isValid(currentValue)) {
+                    return false;
+                }
             }
         }
 
