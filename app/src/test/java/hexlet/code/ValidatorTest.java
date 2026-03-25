@@ -1,9 +1,9 @@
 package hexlet.code;
 
+import hexlet.code.schemas.BaseSchema;
 import hexlet.code.schemas.MapSchema;
 import hexlet.code.schemas.NumberSchema;
 import hexlet.code.schemas.StringSchema;
-import hexlet.code.schemas.ShapeSchema;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -231,9 +231,8 @@ public class ValidatorTest {
     @Test
     public void mapSizeOfRightTest() {
 
-        int size = 2;
         MapSchema schema = v.map();
-        boolean actual = schema.sizeOf(size).isValid(Map.of(
+        boolean actual = schema.sizeof(2).isValid(Map.of(
                 "key1", "value1",
                 "key2", "value2"
         ));
@@ -245,9 +244,8 @@ public class ValidatorTest {
     @Test
     public void mapSizeOfWrongTest() {
 
-        int size = 2;
         MapSchema schema = v.map();
-        boolean actual = schema.sizeOf(size).isValid(
+        boolean actual = schema.sizeof(2).isValid(
                 Map.of("key1", "value1")
         );
 
@@ -259,7 +257,7 @@ public class ValidatorTest {
     public void mapRequiredSizeOfRightTest() {
 
         MapSchema schema = v.map();
-        boolean actual = schema.required().sizeOf(2).isValid(Map.of(
+        boolean actual = schema.required().sizeof(2).isValid(Map.of(
                 "key1", "value1",
                 "key2", "value2"
         ));
@@ -271,7 +269,7 @@ public class ValidatorTest {
     public void mapRequiredSizeOfWrongTest() {
 
         MapSchema schema = v.map();
-        boolean actual = schema.required().sizeOf(2).isValid(
+        boolean actual = schema.required().sizeof(2).isValid(
                 Map.of("key1", "value1")
         );
         boolean expected = false;
@@ -279,12 +277,13 @@ public class ValidatorTest {
     }
 
     @Test
-    public void shapeNullTest() {
+    public void shapeNullMapTest() {
 
-        ShapeSchema schema = v.shape();
-        schema.put("firstName", v.string());
-        schema.put("secondName", v.string());
-        boolean actual = schema.isValid(null);
+        MapSchema schema = v.map();
+        Map<String, BaseSchema<String>> rule = new HashMap<>();
+        rule.put("firstName", v.string());
+        rule.put("secondName", v.string());
+        boolean actual = schema.shape(rule).isValid(null);
         boolean expected = true;
         Assertions.assertEquals(expected, actual);
     }
@@ -292,8 +291,11 @@ public class ValidatorTest {
     @Test
     public void shapeNoSchemaTest() {
 
-        ShapeSchema schema = v.shape();
-        boolean actual = schema.put("firstName", null).isValid(
+        MapSchema schema = v.map();
+        Map<String, BaseSchema<String>> rule = new HashMap<>();
+        rule.put("firstName", v.string());
+        rule.put("secondName", v.string());
+        boolean actual =  schema.shape(rule).isValid(
                 Map.of("firstName", "John",
                         "secondName", "Smith")
         );
@@ -304,10 +306,11 @@ public class ValidatorTest {
     @Test
     public void shapeRequiredMinLengthRightTest() {
 
-        ShapeSchema schema = v.shape();
-        schema.put("firstName", v.string().required().minLength(4));
-        schema.put("secondName", v.string().required().minLength(5));
-        boolean actual = schema.isValid(Map.of(
+        MapSchema schema = v.map();
+        Map<String, BaseSchema<String>> rule = new HashMap<>();
+        rule.put("firstName", v.string().required().minLength(4));
+        rule.put("secondName", v.string().required().minLength(5));
+        boolean actual = schema.shape(rule).isValid(Map.of(
                 "firstName", "John",
                 "secondName", "Smith")
         );
@@ -316,12 +319,13 @@ public class ValidatorTest {
     }
 
     @Test
-    public void shapeRequiredMinLengthOneRightOneWrongTest() {
+    public void shapeRequiredMinLengthWrongTest() {
 
-        ShapeSchema schema = v.shape();
-        schema.put("firstName", v.string().required().minLength(5));
-        schema.put("secondName", v.string().required().minLength(5));
-        boolean actual = schema.isValid(Map.of(
+        MapSchema schema = v.map();
+        Map<String, BaseSchema<String>> rule = new HashMap<>();
+        rule.put("firstName", v.string().required().minLength(5));
+        rule.put("secondName", v.string().required().minLength(6));
+        boolean actual = schema.shape(rule).isValid(Map.of(
                 "firstName", "John",
                 "secondName", "Smith")
         );
@@ -330,17 +334,19 @@ public class ValidatorTest {
     }
 
     @Test
-    public void shapeRequiredMinLengthWrongTest() {
+    public void shapeRequiredMinLengthOneRightOneWrongTest() {
 
-        ShapeSchema schema = v.shape();
-        schema.put("firstName", v.string().required().minLength(5));
-        schema.put("secondName", v.string().required().minLength(6));
-        boolean actual = schema.isValid(Map.of(
+        MapSchema schema = v.map();
+        Map<String, BaseSchema<String>> rule = new HashMap<>();
+        rule.put("firstName", v.string().required().minLength(5));
+        rule.put("secondName", v.string().required().minLength(5));
+        boolean actual = schema.shape(rule).isValid(Map.of(
                 "firstName", "John",
                 "secondName", "Smith")
         );
         boolean expected = false;
         Assertions.assertEquals(expected, actual);
     }
+
 
 }
