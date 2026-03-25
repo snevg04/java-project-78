@@ -11,10 +11,12 @@ public class MapSchema extends BaseSchema<Map<String, String>> {
         return this;
     }
 
-    public MapSchema sizeOf(int number) {
+    public MapSchema sizeof(int number) {
         this.sizeOf = number;
         return this;
     }
+
+
 
     public boolean isValid(Map<String, String> map) {
 

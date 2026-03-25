@@ -232,7 +232,7 @@ public class ValidatorTest {
     public void mapSizeOfRightTest() {
 
         MapSchema schema = v.map();
-        boolean actual = schema.sizeOf(2).isValid(Map.of(
+        boolean actual = schema.sizeof(2).isValid(Map.of(
                 "key1", "value1",
                 "key2", "value2"
         ));
@@ -245,7 +245,7 @@ public class ValidatorTest {
     public void mapSizeOfWrongTest() {
 
         MapSchema schema = v.map();
-        boolean actual = schema.sizeOf(2).isValid(
+        boolean actual = schema.sizeof(2).isValid(
                 Map.of("key1", "value1")
         );
 
@@ -257,7 +257,7 @@ public class ValidatorTest {
     public void mapRequiredSizeOfRightTest() {
 
         MapSchema schema = v.map();
-        boolean actual = schema.required().sizeOf(2).isValid(Map.of(
+        boolean actual = schema.required().sizeof(2).isValid(Map.of(
                 "key1", "value1",
                 "key2", "value2"
         ));
@@ -269,7 +269,7 @@ public class ValidatorTest {
     public void mapRequiredSizeOfWrongTest() {
 
         MapSchema schema = v.map();
-        boolean actual = schema.required().sizeOf(2).isValid(
+        boolean actual = schema.required().sizeof(2).isValid(
                 Map.of("key1", "value1")
         );
         boolean expected = false;
