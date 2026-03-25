@@ -148,6 +148,15 @@ public class ValidatorTest {
     }
 
     @Test
+    public void numberNullRequiredTest() {
+
+        NumberSchema schema = v.number();
+        boolean actual = schema.required().isValid(null);
+        boolean expected = false;
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
     public void numberPositiveRightTest() {
 
         NumberSchema schema = v.number();
