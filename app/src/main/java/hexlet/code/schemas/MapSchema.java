@@ -11,7 +11,7 @@ public class MapSchema extends BaseSchema<Map<String, String>> {
         return this;
     }
 
-    public MapSchema sizeof(int number) {
+    public MapSchema sizeOf(int number) {
         this.sizeOf = number;
         return this;
     }
