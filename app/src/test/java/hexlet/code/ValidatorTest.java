@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Assertions;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ValidatorTest {
+public final class ValidatorTest {
 
     private static Validator v;
 
