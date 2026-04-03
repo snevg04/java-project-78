@@ -4,16 +4,16 @@ import java.util.Map;
 
 public final class MapSchema extends BaseSchema<Map<String, String>> {
 
-    private int sizeof;
     private Map<String, BaseSchema<String>> schemas;
 
+    @Override
     public MapSchema required() {
-        required = true;
+        super.required();
         return this;
     }
 
     public MapSchema sizeof(int number) {
-        this.sizeof = number;
+        addCheck("sizeof", value -> value.size() == number);
         return this;
     }
 
@@ -22,34 +22,30 @@ public final class MapSchema extends BaseSchema<Map<String, String>> {
         return this;
     }
 
+    @Override
     public boolean isValid(Map<String, String> map) {
 
-        if (map == null) {
-            return !required;
+        if (!super.isValid(map)) {
+
+            return false;
         }
 
+        if (schemas == null || map == null) {
+            return true;
+        }
 
-        if (sizeof > 0) {
-            if (map.size() < sizeof) {
-                return false;
+        for (var key : schemas.keySet()) {
+
+            var actualSchema = schemas.get(key);
+
+            if (actualSchema == null) {
+                continue;
             }
-        }
 
-        if (schemas != null) {
+            var currentValue = map.get(key);
 
-            for (var key : schemas.keySet()) {
-
-                var actualSchema = schemas.get(key);
-
-                if (actualSchema == null) {
-                    continue;
-                }
-
-                var currentValue = map.get(key);
-
-                if (!actualSchema.isValid(currentValue)) {
-                    return false;
-                }
+            if (!actualSchema.isValid(currentValue)) {
+                return false;
             }
         }
 

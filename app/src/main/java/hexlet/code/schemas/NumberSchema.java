@@ -2,44 +2,38 @@ package hexlet.code.schemas;
 
 public final class NumberSchema extends BaseSchema<Integer> {
 
-    private boolean positive;
-    private Integer minRange;
-    private Integer maxRange;
-
+    @Override
     public NumberSchema required() {
-        required = true;
+        super.required();
         return this;
     }
 
     public NumberSchema positive() {
-        positive = true;
+        addCheck("positive", value -> value > 0);
         return this;
     }
 
     public NumberSchema range(int min, int max) {
-
-        minRange = min;
-        maxRange = max;
-
+        addCheck("range", value -> value >= min && value <= max);
         return this;
     }
 
-    public boolean isValid(Integer number) {
-
-        if (number == null) {
-            return !required;
-        }
-
-        if (positive) {
-            if (number <= 0) {
-                return false;
-            }
-        }
-
-        if (minRange != null && (number < minRange || number > maxRange)) {
-            return false;
-        }
-
-        return true;
-    }
+//    public final boolean isValid(Integer number) {
+//
+//        if (number == null) {
+//            return !required;
+//        }
+//
+//        if (positive) {
+//            if (number <= 0) {
+//                return false;
+//            }
+//        }
+//
+//        if (minRange != null && (number < minRange || number > maxRange)) {
+//            return false;
+//        }
+//
+//        return true;
+//    }
 }
