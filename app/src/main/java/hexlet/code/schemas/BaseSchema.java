@@ -14,13 +14,22 @@ public abstract class BaseSchema<T> {
         checks.put(name, validate);
     }
 
-    /** Помечает значение как обязательное для проверки. */
+    /**
+     * Помечает значение как обязательное для проверки.
+     *
+     * @return текущий объект схемы
+     */
     public BaseSchema<T> required() {
         this.required = true;
         return this;
     }
 
-    /** Проверяет значение на соответствие всем проверкам схемы. */
+    /**
+     * Проверяет значение на соответствие всем проверкам схемы.
+     *
+     * @param value значение для проверки
+     * @return true, если значение прошло все проверки, иначе false
+     */
     public boolean isValid(T value) {
 
         if (required) {
