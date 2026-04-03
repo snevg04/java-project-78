@@ -14,11 +14,13 @@ public abstract class BaseSchema<T> {
         checks.put(name, validate);
     }
 
+    /** Помечает значение как обязательное для проверки. */
     public BaseSchema<T> required() {
         this.required = true;
         return this;
     }
 
+    /** Проверяет значение на соответствие всем проверкам схемы. */
     public boolean isValid(T value) {
 
         if (required) {
