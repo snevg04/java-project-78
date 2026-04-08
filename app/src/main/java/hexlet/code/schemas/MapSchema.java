@@ -4,8 +4,6 @@ import java.util.Map;
 
 public final class MapSchema extends BaseSchema<Map<String, String>> {
 
-    private Map<String, BaseSchema<String>> schemas;
-
     @Override
     public MapSchema required() {
         super.required();
@@ -17,38 +15,25 @@ public final class MapSchema extends BaseSchema<Map<String, String>> {
         return this;
     }
 
-    public MapSchema shape(Map<String, BaseSchema<String>> rule) {
-        this.schemas = rule;
-        return this;
-    }
+    public MapSchema shape(Map<String, BaseSchema<String>> schemas) {
+        addCheck("shape", value -> {
+            if (value == null) {
+                return true;
+            }
 
-    @Override
-    public boolean isValid(Map<String, String> map) {
+            for (var key : schemas.keySet()) {
 
-        if (!super.isValid(map)) {
+                var actualSchema = schemas.get(key);
 
-            return false;
-        }
+                var currentValue = value.get(key);
 
-        if (schemas == null || map == null) {
+                if (!actualSchema.isValid(currentValue)) {
+                    return false;
+                }
+            }
+
             return true;
-        }
-
-        for (var key : schemas.keySet()) {
-
-            var actualSchema = schemas.get(key);
-
-            if (actualSchema == null) {
-                continue;
-            }
-
-            var currentValue = map.get(key);
-
-            if (!actualSchema.isValid(currentValue)) {
-                return false;
-            }
-        }
-
-        return true;
+        });
+        return this;
     }
 }
