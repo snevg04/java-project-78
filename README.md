@@ -7,7 +7,10 @@
 ### SonarQube:
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=snevg04_java-project-78&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=snevg04_java-project-78)
 
-# Валидатор данных
+# Data Validator (EN)
 
-Данная библиотека позволяет проверять корректность данных. Валидатор работает с данными различных типов, среди которых строки, числа и Maps. Библиотека также предоставляет возможность валидации вложенных в Maps данных. Схемы валидации настраиваются при помощи вызова соответствующих методов. 
+A data validation library for validating different data types, including strings, numbers, and Maps. It supports validation of nested data within Maps. Validation rules are configured using methods provided by the corresponding schemas, allowing checks to be customized according to specific data requirements.
 
+# Валидатор данных (RU)
+
+Библиотека для валидации данных различных типов, включая строки, числа и Maps. Поддерживает валидацию вложенных данных в Maps. Правила валидации задаются с помощью методов соответствующих схем, что позволяет настраивать проверки в зависимости от требований к данным.
